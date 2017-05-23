@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+
+image="thrivetrm/base"
+tag=$(git rev-parse --short HEAD)
+
+echo "-----> Building $image..."
+docker build --no-cache -t "$image" .
+
+echo "-----> Tagging $image..."
+docker tag "$image" "$image:$tag"
+
+echo "-----> Pushing $image..."
+docker push "$image:$tag"
