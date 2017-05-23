@@ -2,7 +2,8 @@ FROM ruby:2.4.0-slim
 
 ENV NODE_VERSION="7.10.0" \
     BUNDLER_VERSION="1.15.0" \
-    YARN_VERSION="0.24.5"
+    YARN_VERSION="0.24.5" \
+    PATH="${PATH}:${HOME}/.yarn/bin"
 
 # Install the absolute essentials
 RUN apt-get update \
