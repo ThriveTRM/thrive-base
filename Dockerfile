@@ -22,6 +22,7 @@ RUN apt-get update \
             libfontconfig \
             imagemagick \
             postgresql-client \
+            libnss3 \
       && rm -rf /var/lib/apt/lists/*
 
 # Install node/npm from pre-built binary
