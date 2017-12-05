@@ -2,10 +2,10 @@ FROM ruby:2.4.0-slim
 
 WORKDIR /app
 
-ENV NODE_VERSION="7.10.0" \
-    BUNDLER_VERSION="1.15.0" \
+ENV NODE_VERSION="8.9.1" \
+    BUNDLER_VERSION="1.16.0" \
     BUNDLE_HOME="/app/bundle" \
-    YARN_VERSION="0.24.5" \
+    YARN_VERSION="1.3.2" \
     PATH="${PATH}:/root/.yarn/bin"
 
 COPY ./pdftohtml /usr/local/bin/pdftohtml
