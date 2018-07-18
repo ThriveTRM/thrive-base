@@ -6,7 +6,8 @@ ENV NODE_VERSION="8.9.1" \
     BUNDLER_VERSION="1.16.0" \
     BUNDLE_HOME="/app/bundle" \
     YARN_VERSION="1.3.2" \
-    PATH="${PATH}:/root/.yarn/bin"
+    PATH="${PATH}:/root/.yarn/bin" \
+    LANG="C.UTF-8"
 
 COPY ./pdftohtml /usr/local/bin/pdftohtml
 
