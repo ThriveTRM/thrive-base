@@ -3,9 +3,9 @@ FROM ruby:2.4.0-slim
 WORKDIR /app
 
 ENV NODE_VERSION="10.11.0" \
-    BUNDLER_VERSION="1.16.0" \
+    BUNDLER_VERSION="2.0.1" \
     BUNDLE_HOME="/app/bundle" \
-    YARN_VERSION="1.10.1" \
+    YARN_VERSION="1.13.0" \
     PATH="${PATH}:/root/.yarn/bin" \
     LANG="C.UTF-8"
 
