@@ -2,11 +2,15 @@
 
 set -e
 
+#
+# NOTE: ensure you provide your docker hub credentials via `docker login` before `docker push`
+#
+
 image="thrivetrm/base"
 tag=$(git rev-parse --short HEAD)
 
 echo "-----> Building $image..."
-docker build --no-cache -t "$image" .
+docker build --no-cache --tag "$image" .
 
 if [ "$1" == "--push" ]; then
   echo "-----> Tagging $image..."
