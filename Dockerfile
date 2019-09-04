@@ -2,12 +2,12 @@ FROM ruby:2.4.0-slim
 
 WORKDIR /app
 
-ENV NODE_VERSION="10.11.0" \
-    BUNDLER_VERSION="2.0.1" \
-    BUNDLE_HOME="/app/bundle" \
-    YARN_VERSION="1.13.0" \
+ENV BUNDLE_HOME="/app/bundle" \
+    BUNDLER_VERSION="2.0.2" \
+    LANG="C.UTF-8" \
+    NODE_VERSION="10.16.3" \
     PATH="${PATH}:/root/.yarn/bin" \
-    LANG="C.UTF-8"
+    YARN_VERSION="1.17.3"
 
 COPY ./pdftohtml /usr/local/bin/pdftohtml
 
