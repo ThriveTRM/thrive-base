@@ -14,23 +14,24 @@ COPY ./pdftohtml /usr/local/bin/pdftohtml
 # Install the absolute essentials
 RUN apt-get update \
       && apt-get install -qq -y --no-install-recommends \
-            awscli \
-            build-essential \
-            curl \
-            git \
-            imagemagick \
-            libfontconfig \
-            libssh2-1 \
-            libnss3 \
-            libpng-dev \
-            libpq-dev \
-            postgresql-client \
-            zlib1g-dev \
+           awscli \
+           apt-utils \
+           build-essential \
+           curl \
+           git \
+           imagemagick \
+           libfontconfig \
+           libnss3 \
+           libpng-dev \
+           libpq-dev \
+           openssh-client \
+           postgresql-client \
+           zlib1g-dev \
       && rm -rf /var/lib/apt/lists/*
 
 # Install node/npm from pre-built binary
 RUN curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz \
-      | tar xzvf - \
+      | tar xzf - \
           --exclude CHANGELOG.md \
           --exclude LICENSE \
           --exclude README.md \
@@ -38,8 +39,7 @@ RUN curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x6
           -C /usr/local/
 
 # Install yarn
-RUN curl -o- -L https://yarnpkg.com/install.sh \
-      | bash -s -- --version "$YARN_VERSION"
+RUN curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version "$YARN_VERSION"
 
 # Install and configure bundler
 RUN echo "gem: --no-rdoc --no-ri" > ~/.gemrc \
