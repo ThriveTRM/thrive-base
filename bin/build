@@ -15,12 +15,17 @@ docker build --no-cache --tag "$image" .
 if [ "$1" == "--push" ]; then
   echo "-----> Tagging $image..."
   docker tag "$image" "$image:$tag"
+  docker tag "$image" "$image:latest"
 
   echo "-----> Pushing $image..."
   docker push "$image:$tag"
+  docker push "$image:latest"
 else
   echo "-----> Skipping push..."
   echo "To push the image, run:"
   echo "  $ docker tag $image $image:$tag"
+  echo "  $ docker tag $image $image:latest"
+
   echo "  $ docker push $image:$tag"
+  echo "  $ docker push $image:latest"
 fi
