@@ -15,6 +15,7 @@ COPY ./pdftohtml /usr/local/bin/pdftohtml
 RUN apt-get update \
       && apt-get install -qq -y --no-install-recommends \
             git \
+            ssh \ 
             curl \
             build-essential \
             libpq-dev \
