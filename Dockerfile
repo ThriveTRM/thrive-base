@@ -25,7 +25,7 @@ RUN apt-get update \
             libpng-dev \
             libpq-dev \
             postgresql-client \
-            zlib1g-dev
+            zlib1g-dev \
       && rm -rf /var/lib/apt/lists/*
 
 # Install node/npm from pre-built binary
