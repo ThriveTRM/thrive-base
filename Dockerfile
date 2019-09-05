@@ -14,17 +14,18 @@ COPY ./pdftohtml /usr/local/bin/pdftohtml
 # Install the absolute essentials
 RUN apt-get update \
       && apt-get install -qq -y --no-install-recommends \
-            git \
-            curl \
-            build-essential \
-            libpq-dev \
-            libpng-dev \
-            zlib1g-dev \
-            libfontconfig \
-            imagemagick \
-            postgresql-client \
-            libnss3 \
             awscli \
+            build-essential \
+            curl \
+            git \
+            imagemagick \
+            libfontconfig \
+            libssh2-1 \
+            libnss3 \
+            libpng-dev \
+            libpq-dev \
+            postgresql-client \
+            zlib1g-dev
       && rm -rf /var/lib/apt/lists/*
 
 # Install node/npm from pre-built binary
