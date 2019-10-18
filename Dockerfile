@@ -25,7 +25,7 @@ RUN apt-get update \
            libpng-dev \
            libpq-dev \
            openssh-client \
-           postgresql-client \
+           postgresql-client-9.6 \
            zlib1g-dev \
       && rm -rf /var/lib/apt/lists/*
 
