@@ -1,0 +1,28 @@
+FROM thrivetrm/base
+
+# install the latest versions of Google Chrome and Chromedriver
+
+# suppress debconf and dpkg-preconfigure warnings
+RUN export DEBIAN_FRONTEND=noninteractive \
+  && GOOGLE_LINUX_DL=https://dl-ssl.google.com/linux \
+  && curl -sL "$GOOGLE_LINUX_DL/linux_signing_key.pub" | apt-key add - \
+  && SOURCE='deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' \
+  && sh -c 'echo "$SOURCE" >> /etc/apt/sources.list.d/google.list' \
+  && apt-get update \
+  && apt-get install -y unzip google-chrome-stable \
+  && apt-get clean
+
+RUN BASE_URL=https://chromedriver.storage.googleapis.com \
+  && VERSION=$(curl -sL "$BASE_URL/LATEST_RELEASE") \
+  && apt-get install unzip \
+  && curl -sL "$BASE_URL/$VERSION/chromedriver_linux64.zip" -o /tmp/driver.zip \
+  # -o overwrite existing files without prompting
+  && unzip -o /tmp/driver.zip chromedriver -d /usr/local/bin \
+  && apt-get autoremove --purge -y unzip \
+  && apt-get clean \
+  && rm -rf \
+    /tmp/* \
+    /usr/share/doc/* \
+    /var/cache/* \
+    /var/lib/apt/lists/* \
+    /var/tmp/*

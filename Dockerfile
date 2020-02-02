@@ -14,8 +14,8 @@ COPY ./pdftohtml /usr/local/bin/pdftohtml
 # Install the absolute essentials
 RUN apt-get update \
       && apt-get install -qq -y --no-install-recommends \
-           awscli \
            apt-utils \
+           awscli \
            build-essential \
            curl \
            git \
