@@ -6,7 +6,7 @@ set -e
 
 image="thrivetrm/base"
 file=Dockerfile-test
-tag=$(git rev-parse --short HEAD)
+tag=$(date +%Y%m%d%H%M%S)
 
 echo "-----> Building $image for $file..."
 docker build --file $file --no-cache --tag "$image" .
@@ -22,9 +22,9 @@ if [ "$1" == "--push" ]; then
 else
   echo "-----> Skipping push..."
   echo "To push the image, run:"
-  echo "  $ docker tag $image $image:$tag"
+  # echo "  $ docker tag $image $image:$tag"
   echo "  $ docker tag $image $image:latest-test"
 
-  echo "  $ docker push $image:$tag"
+  # echo "  $ docker push $image:$tag"
   echo "  $ docker push $image:latest-test"
 fi
