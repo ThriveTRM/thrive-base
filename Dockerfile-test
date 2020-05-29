@@ -1,48 +1,57 @@
 FROM ruby:2.7.1-slim-buster
 
-# declare alone to interpolate for other ENV vars
+# declare APP alone to interpolate for other ENV vars
 ENV APP=/app
 ENV BUNDLER_VERSION='2.1.4' \
     BUNDLE_HOME="$APP/.bundle" \
     # deployment implies --frozen true --path vendor/bundle
     BUNDLE_DEPLOYMENT='true' \
-    # create bin stubs
-    BUNDLE_BIN="$APP/bin" \
-    # add bin stubs dir to path
-    PATH="$PATH:$APP/bin"
+    # set default locale as ruby defaults to US-ASCII
+    LANG='C.UTF-8' \
+    # add rails bin stubs dir to path
+    PATH="$APP/bin:$PATH"
 
-WORKDIR $APP
-
-COPY ./pdftohtml /usr/local/bin/pdftohtml
-
-RUN apt-get update && apt-get install -qq -y --no-install-recommends \
-      awscli \
+# common dependencies
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends \
       apt-utils \
       build-essential \
       curl \
       git \
       gnupg \
+      libnss3 \
+      openssh-client \
+      zlib1g-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && truncate -s 0 /var/log/*log
+
+# add repo to sources for nodejs v12.x aka latest LTS version
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+
+# add repo to sources for yarn stable
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+    && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+
+# app dependencies
+RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -qq --no-install-recommends \
+      awscli \
       imagemagick \
       libfontconfig \
-      libnss3 \
       libpng-dev \
       libpq-dev \
-      openssh-client \
+      nodejs \
       postgresql-client \
-      zlib1g-dev \
-    && rm -rf /var/lib/apt/lists/*
+      yarn \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && truncate -s 0 /var/log/*log
 
-# install nodejs v12.x aka latest LTS version
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
-      && apt-get install -qq -y --no-install-recommends nodejs \
-      && rm -rf /var/lib/apt/lists/*
-
-# install yarn
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-      && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
-      && apt-get update && apt-get install -qq -y --no-install-recommends yarn \
-      && rm -rf /var/lib/apt/lists/*
+# convert pdf to html
+# TODO: install via yarn?
+COPY ./pdftohtml /usr/local/bin/pdftohtml
 
 # install and configure bundler for app and CI
 RUN echo 'gem: --no-rdoc --no-ri' > ~/.gemrc \
-      && gem install bundler -v "$BUNDLER_VERSION"
+    && gem install bundler -v "$BUNDLER_VERSION"
+
+WORKDIR $APP
