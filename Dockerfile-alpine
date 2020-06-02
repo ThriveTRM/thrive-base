@@ -1,0 +1,33 @@
+FROM ruby:2.7.1-alpine3.11
+
+# declare APP alone to interpolate for other ENV vars
+ARG APP=/app
+ENV BUNDLER_VERSION='2.1.4' \
+    # set as bundler defaults to ~/.bundle
+    BUNDLE_HOME="$APP/.bundle" \
+    # deployment implies --frozen true --path vendor/bundle
+    BUNDLE_DEPLOYMENT='true' \
+    # number of gems bundler can install in parallel (# of t2.xlarge vCPU - 1)
+    BUNDLE_JOBS=3 \
+    # set default locale as ruby defaults to US-ASCII
+    LANG='C.UTF-8' \
+    # add binstubs dir to path
+    PATH="$APP/bin:$PATH"
+
+ARG BUILD_PKGS='build-base curl git gnupg openssh-client zlib-dev'
+ARG DEV_PKGS='bash file fontconfig libpng-dev postgresql-dev'
+ARG APP_PKGS='postgresql-client tzdata yarn'
+# -U = update and upgrade
+RUN apk -U upgrade \
+      # --no-cache runs rm -rf /var/cache/apk/* after installation
+      && apk add --no-cache $BUILD_PKGS $DEV_PKGS $APP_PKGS
+
+# convert pdf to html
+# TODO: install via yarn?
+COPY ./pdftohtml /usr/local/bin/pdftohtml
+
+# install and configure bundler for app and CI
+RUN echo 'gem: --no-rdoc --no-ri' > ~/.gemrc \
+      && gem install bundler -v "$BUNDLER_VERSION"
+
+WORKDIR $APP
