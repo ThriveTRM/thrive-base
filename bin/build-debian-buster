@@ -9,22 +9,17 @@ file="Dockerfile-debian-buster"
 tag=$(date +%Y%m%d%H%M%S)
 
 echo "-----> Building $image for $file..."
-docker build --file $file --no-cache --tag "$image:$tag" .
+docker build --file $file --no-cache --pull --tag "$image:$tag" .
 
 if [ "$1" == "--push" ]; then
   echo "-----> Tagging $image..."
   docker tag "$image" "$image:$tag"
-  docker tag "$image" "$image:latest-debian-buster"
 
   echo "-----> Pushing $image..."
   docker push "$image:$tag"
-  docker push "$image:latest-build-debian-buster"
 else
   echo "-----> Skipping push..."
   echo "To push the image, run:"
   echo "  $ docker tag $image $image:$tag"
-  echo "  $ docker tag $image $image:latest-debian-buster"
-
   echo "  $ docker push $image:$tag"
-  echo "  $ docker push $image:latest-debian-buster"
 fi
