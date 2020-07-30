@@ -9,7 +9,7 @@ file=Dockerfile-alpine
 tag=$(date +%Y%m%d%H%M%S)
 
 echo "-----> Building $image for $file..."
-docker build --file $file --no-cache --pull --tag "$image:alpine-$tag" .
+docker build --file $file --no-cache --pull --quiet --tag "$image:alpine-$tag" .
 
 if [ "$1" == "--push" ]; then
   echo "-----> Tagging $image..."

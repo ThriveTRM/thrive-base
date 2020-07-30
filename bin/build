@@ -9,7 +9,7 @@ file=Dockerfile
 tag=$(git rev-parse --short HEAD)
 
 echo "-----> Building $image for $file..."
-docker build --file $file --no-cache --pull --tag "$image:$tag" .
+docker build --file $file --no-cache --pull --quiet --tag "$image:$tag" .
 
 if [ "$1" == "--push" ]; then
   echo "-----> Tagging $image..."

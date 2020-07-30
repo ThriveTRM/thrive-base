@@ -9,7 +9,7 @@ file="Dockerfile-debian-buster"
 tag=$(date +%Y%m%d%H%M%S)
 
 echo "-----> Building $image for $file..."
-docker build --file $file --no-cache --pull --tag "$image:$tag" .
+docker build --file $file --no-cache --pull --quiet --tag "$image:$tag" .
 
 if [ "$1" == "--push" ]; then
   echo "-----> Tagging $image..."
