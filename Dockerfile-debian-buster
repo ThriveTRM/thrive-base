@@ -2,12 +2,12 @@ FROM ruby:2.7.1-slim-buster
 
 # declare APP alone to interpolate for other ENV vars
 ENV APP=/app
-ENV BUNDLER_VERSION='2.1.4' \
+ENV BUNDLER_VERSION="2.1.4" \
     BUNDLE_HOME="$APP/.bundle" \
     # deployment implies --frozen true --path vendor/bundle
-    BUNDLE_DEPLOYMENT='true' \
+    BUNDLE_DEPLOYMENT="true" \
     # set default locale as ruby defaults to US-ASCII
-    LANG='C.UTF-8' \
+    LANG="C.UTF-8" \
     # add rails bin stubs dir to path
     PATH="$APP/bin:$PATH"
 

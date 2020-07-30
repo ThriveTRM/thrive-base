@@ -5,26 +5,21 @@ set -e
 # NOTE: ensure you provide your docker hub credentials via `docker login` before `docker push`
 
 image="thrivetrm/base"
-file="Dockerfile-alpine"
+file=Dockerfile-alpine
 tag=$(date +%Y%m%d%H%M%S)
 
 echo "-----> Building $image for $file..."
-docker build --file $file --no-cache --tag "$image:$tag" .
+docker build --file $file --no-cache --pull --quiet --tag "$image:alpine-$tag" .
 
 if [ "$1" == "--push" ]; then
   echo "-----> Tagging $image..."
-  docker tag "$image" "$image:$tag"
-  docker tag "$image" "$image:latest-alpine"
+  docker tag "$image" "$image:alpine-$tag"
 
   echo "-----> Pushing $image..."
-  docker push "$image:$tag"
-  docker push "$image:latest-alpine"
+  docker push "$image:alpine-$tag"
 else
   echo "-----> Skipping push..."
   echo "To push the image, run:"
-  echo "  $ docker tag $image $image:$tag"
-  echo "  $ docker tag $image $image:latest-alpine"
-
-  echo "  $ docker push $image:$tag"
-  echo "  $ docker push $image:latest-alpine"
+  echo "  $ docker tag $image $image:alpine-$tag"
+  echo "  $ docker push $image:alpine-$tag"
 fi
