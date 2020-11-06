@@ -24,6 +24,8 @@ RUN apt-get update \
            libnss3 \
            libpng-dev \
            libpq-dev \
+           # we need NPM for Coveralls to work on the Rails side
+           npm \
            openssh-client \
            postgresql-client \
            zlib1g-dev \
