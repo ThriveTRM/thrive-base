@@ -19,7 +19,7 @@ ARG BUILD_PKGS='build-base curl git gnupg openssh-client zlib-dev'
 # the pdftohtml binary can't be found in PATH even though it lives in /usr/local/bin because
 # pdftohtml is linked via glibc e.g. ldd /usr/local/bin/pdftohtml
 ARG DEV_PKGS='bash file fontconfig libc6-compat libpng-dev postgresql-dev'
-ARG APP_PKGS='aws-cli imagemagick postgresql-client tzdata yarn'
+ARG APP_PKGS='aws-cli imagemagick postgresql-client tzdata yarn npm'
 # -U = update and upgrade
 RUN apk -U upgrade \
       # --no-cache runs rm -rf /var/cache/apk/* after installation
